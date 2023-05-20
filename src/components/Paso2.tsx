@@ -9,21 +9,9 @@ const Paso2 = () => {
   const validacionesPaso2 = Yup.object({
     institucion: Yup.string().required('Este campo es requerido'),
     carrera: Yup.string().required('Este campo es requerido'),
-    fechaInicio: Yup.date().required('Este campo es requerido').nullable(),
-    fechaFin: Yup.date().required('Este campo es requerido').nullable()
-    .test({
-        name: 'fechas',
-        exclusive: false,
-        message: 'La fecha fin debe ser posterior a la fecha de inicio',
-        test: function(value) {
-          const { fechaInicio } = this.parent;
-          if (!fechaInicio || !value){
-            return true
-          }
-          return fechaInicio <= value;
-        }
-
-    })
+    fechaInicio: Yup.date().required('Este campo es requerido'),
+    fechaFin: Yup.date().required('Este campo es requerido')
+    .min(Yup.ref('fechaInicio'), 'La fecha de fin debe ser posterior o igual a la fecha de inicio')
   });
 
   // Función con el Hook useFormik se encargara de cargar las validaciones, inicializar las variables y enviar el formulario
