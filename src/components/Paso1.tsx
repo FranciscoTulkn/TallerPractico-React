@@ -1,9 +1,16 @@
 import React from 'react';
+import { useNavigate} from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
 
 const Paso1 = () => {
+
+  // Constante para poder usar el navigate en las rutas
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   // Función para validar los campos del formulario
   const validacionesPaso1 = Yup.object({
@@ -22,7 +29,12 @@ const Paso1 = () => {
       telefono: ''
     },
     validationSchema: validacionesPaso1,
-    onSubmit: (values) => { console.log(values) }
+    onSubmit: (values) => { 
+      dispatch({ 
+        type: 'AgregarDatos', 
+        payload: values });
+      navigate('/paso2') 
+    }
   });
 
 

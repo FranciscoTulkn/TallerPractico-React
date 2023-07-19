@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button } from 'react-bootstrap'
 
 const Paso4 = () => {
+
+  const navigate = useNavigate();
 
   const validacionPaso4 = Yup.object({
     biografia: Yup.string().required('Este campo es requerido'),
@@ -14,6 +17,7 @@ const Paso4 = () => {
       biografia: "",
     },
     validationSchema: validacionPaso4,
+    onSubmit: () => { navigate('/paso5') }
   });
 
 

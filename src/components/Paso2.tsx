@@ -1,9 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap';
 
 const Paso2 = () => {
+
+  // Constante para poder usar el navigate en las rutas
+  const navigate = useNavigate();
 
   // Función para realizar las validaciones de los campos del formulario
   const validacionesPaso2 = Yup.object({
@@ -23,8 +27,7 @@ const Paso2 = () => {
       fechaFin: ''
     },
     validationSchema: validacionesPaso2,
-    onSubmit: (values) => (console.log(values)
-    )
+    onSubmit: () => { navigate('/paso3') }
   });
 
   return(

@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button } from 'react-bootstrap'
 
 const Paso3 = () => {
+
+  const navigate = useNavigate();
 
   const validacionPaso3 = Yup.object({
     empresa: Yup.string().required('Este campo es requerido'),
@@ -20,6 +23,7 @@ const Paso3 = () => {
       fechaFin: ""
     },
     validationSchema: validacionPaso3,
+    onSubmit: () => { navigate('/paso4') }
   });
 
 
@@ -67,7 +71,7 @@ const Paso3 = () => {
         <Form.Group controlId='fechaInicio'>
           <Form.Label>Fecha de inicio </Form.Label>
           <Form.Control 
-            name='cargo'
+            name='fechaInicio'
             type='date' 
             value={formik.values.fechaInicio}
             onChange={formik.handleChange}

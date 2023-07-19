@@ -12,10 +12,10 @@ const Wizard = () => {
     <div>
       <h2>Wizard</h2>
       <Paso1 />
-      <Paso2 />
+      {/* <Paso2 />
       <Paso3 />
       <Paso4 />
-      <Paso5 />
+      <Paso5 /> */}
     </div>
   );
 }
