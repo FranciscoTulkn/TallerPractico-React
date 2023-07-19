@@ -22,7 +22,7 @@ const Paso1 = () => {
       telefono: ''
     },
     validationSchema: validacionesPaso1,
-    onSubmit: (values) => (console.log(values))
+    onSubmit: (values) => { console.log(values) }
   });
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Form, Button, FormControl } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 
 const Paso2 = () => {
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Wizard from './pages/wizard';
 import Resumen from './pages/resumen';
@@ -6,7 +6,7 @@ import Resumen from './pages/resumen';
 function App() {
   
 
-  return (
+  return ( 
     <Router>
       <Routes>
         <Route path='/' element={<Wizard />} />
