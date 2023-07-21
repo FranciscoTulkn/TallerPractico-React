@@ -3,40 +3,51 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../interfaces/interfacePaso2';
+import '../Styles/Paso1Style.css';
 
 const Paso2 = () => {
 
   // Constante para poder usar el navigate en las rutas
   const navigate = useNavigate();
+  // Constate para mantener los datos almancenados
+  const dispatch = useDispatch();
+  // Constante para poder manipular los datos almacenados
+  const selector = useSelector((state: RootState) => state);
 
   // Función para realizar las validaciones de los campos del formulario
   const validacionesPaso2 = Yup.object({
     institucion: Yup.string().required('Este campo es requerido'),
     carrera: Yup.string().required('Este campo es requerido'),
-    fechaInicio: Yup.date().required('Este campo es requerido'),
-    fechaFin: Yup.date().required('Este campo es requerido')
-    .min(Yup.ref('fechaInicio'), 'La fecha de fin debe ser posterior o igual a la fecha de inicio')
+    fechaInicioEducacion: Yup.date().required('Este campo es requerido'),
+    fechaFinEducacion: Yup.date().required('Este campo es requerido')
+    .min(Yup.ref('fechaInicioEducacion'), 'La fecha de fin debe ser posterior o igual a la fecha de inicio')
   });
 
   // Función con el Hook useFormik se encargara de cargar las validaciones, inicializar las variables y enviar el formulario
   const formik = useFormik({
     initialValues: {
-      institucion: '',
-      carrera: '',
-      fechaInicio: '',
-      fechaFin: ''
+      institucion: selector.institucion,
+      carrera: selector.carrera,
+      fechaInicioEducacion: selector.fechaInicioEducacion,
+      fechaFinEducacion: selector.fechaFinEducacion
     },
     validationSchema: validacionesPaso2,
-    onSubmit: () => { navigate('/paso3') }
+    onSubmit: (values) => { 
+      dispatch({ 
+        type: 'AgregarDatos', 
+        payload: values });
+      navigate('/paso3') }
   });
 
   return(
-    <div>
+    <div className='container'>
       <h2>Paso #2 - Formación Académica</h2>
-      <Form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit} className='Formulario'>
 
         {/* Campo para el nombre de la institución */}
-        <Form.Group controlId='institucion'>
+        <Form.Group controlId='institucion'  className='Inputs'>
           <Form.Label>Nombre Institución</Form.Label>
           <Form.Control 
             name='institucion' 
@@ -53,7 +64,7 @@ const Paso2 = () => {
         </Form.Group>
 
         {/* Campo para la carrera o programa */}
-        <Form.Group controlId='carrera'>
+        <Form.Group controlId='carrera' className='Inputs'>
           <Form.Label>Carrera o Programa</Form.Label>
           <Form.Control 
             name='carrera'
@@ -70,42 +81,45 @@ const Paso2 = () => {
         </Form.Group>
 
         {/* Campo para diligenciar el inicio de la formación */}
-        <Form.Group controlId='fechaInicio'>
+        <Form.Group controlId='fechaInicioEducacion' className='Inputs'>
           <Form.Label>Fecha Inicio Formación</Form.Label>
           <Form.Control 
-            name='fechaInicio'
+            name='fechaInicioEducacion'
             type='date'
-            value={formik.values.fechaInicio}
+            value={formik.values.fechaInicioEducacion}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            isInvalid={!!formik.errors.fechaInicio && formik.touched.fechaInicio}
+            isInvalid={!!formik.errors.fechaInicioEducacion && formik.touched.fechaInicioEducacion}
           />
           <Form.Control.Feedback type='invalid'>
-            {formik.errors.fechaInicio}
+            {formik.errors.fechaInicioEducacion}
           </Form.Control.Feedback>
         </Form.Group>
                 
         {/* Campo para diligenciar el fin de la formación */}
-        <Form.Group controlId='fechaFin'>
+        <Form.Group controlId='fechaFinEducacion' className='Inputs'>
         <Form.Label>Fecha Fin Formación</Form.Label>
           <Form.Control 
-            name='fechaFin'
+            name='fechaFinEducacion'
             type='date'
-            value={formik.values.fechaFin}
+            value={formik.values.fechaFinEducacion}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            isInvalid={!!formik.errors.fechaFin && formik.touched.fechaFin}
+            isInvalid={!!formik.errors.fechaFinEducacion && formik.touched.fechaFinEducacion}
           />
           <Form.Control.Feedback type='invalid'>
-            {formik.errors.fechaFin}
+            {formik.errors.fechaFinEducacion}
           </Form.Control.Feedback>
         </Form.Group>
 
-        {/* Botón para enviar al anterior paso del registro */}
-        <Button type='submit' variant='dark'>Atras</Button>
+        <div className='Botones'>
+          {/* Botón para enviar al anterior paso del registro */}
+          <Button variant='dark' onClick={() => navigate('/paso1')} className='BotonSiguiente'>Atras</Button>
 
-        {/* Botón para enviar al siguiente paso del registro */}
-        <Button type='submit' variant='warning'>Siguiente</Button>
+          {/* Botón para enviar al siguiente paso del registro */}
+          <Button type='submit' variant='warning' className='BotonSiguiente'>Siguiente</Button>
+        </div>
+        
       </Form>
     </div>
   );

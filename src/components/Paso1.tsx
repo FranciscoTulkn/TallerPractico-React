@@ -2,15 +2,19 @@ import React from 'react';
 import { useNavigate} from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Form, Button } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { Form, Button, Container } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../interfaces/interfacePaso1';
+import '../Styles/Paso1Style.css';
 
-const Paso1 = () => {
+const Paso1 = () => { 
 
   // Constante para poder usar el navigate en las rutas
   const navigate = useNavigate();
-
+  // Constate para mantener los datos almancenados
   const dispatch = useDispatch();
+  // Constante para poder manipular los datos almacenados
+  const selector = useSelector((state: RootState) => state);
 
   // Función para validar los campos del formulario
   const validacionesPaso1 = Yup.object({
@@ -21,12 +25,12 @@ const Paso1 = () => {
   });
 
   // Función con el Hook useFormik se encargara de cargar las validaciones, inicializar las variables y enviar el formulario
-  const formik = useFormik({
+  const formik = useFormik ({
     initialValues: {
-      nombre: '',
-      apellidos: '',
-      correo: '',
-      telefono: ''
+      nombre: selector.nombre,
+      apellidos: selector.apellidos,
+      correo: selector.correo,
+      telefono: selector.telefono,
     },
     validationSchema: validacionesPaso1,
     onSubmit: (values) => { 
@@ -37,16 +41,14 @@ const Paso1 = () => {
     }
   });
 
-
-
   return (
-    <div>
+    <div className='container'>
       <h2>Paso #1 - Datos Básicos</h2>
       {/* Inicio del formulario con Bootstrap */}
-      <Form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit} className='Formulario'>
 
         {/* Campo para el nombre del usuario */}
-        <Form.Group controlId='nombre'>
+        <Form.Group controlId='nombre' className='Inputs'>
           <Form.Label>Nombre: </Form.Label>
           <Form.Control 
             name='nombre'
@@ -63,7 +65,7 @@ const Paso1 = () => {
         </Form.Group>
 
         {/* Campo para los apellidos del usuario */}
-        <Form.Group controlId='apellidos'>
+        <Form.Group controlId='apellidos' className='Inputs'>
         <Form.Label>Apellidos: </Form.Label>
           <Form.Control 
             name='apellidos'
@@ -80,7 +82,7 @@ const Paso1 = () => {
         </Form.Group>
 
         {/* Campo para el correo electrónico del usuario */}
-        <Form.Group controlId='correo'>
+        <Form.Group controlId='correo' className='Inputs'>
         <Form.Label>Correo: </Form.Label>
           <Form.Control 
             name='correo'
@@ -97,7 +99,7 @@ const Paso1 = () => {
         </Form.Group>
 
         {/* Campo para el telefono del usuario */}
-        <Form.Group controlId='telefono'>
+        <Form.Group controlId='telefono' className='Inputs'>
         <Form.Label>Telefono: </Form.Label>
           <Form.Control 
             name='telefono'
@@ -114,7 +116,7 @@ const Paso1 = () => {
         </Form.Group>
 
         {/* Botón para enviar al suiguiente paso del registro */}
-        <Button type='submit' variant='warning'>Siguiente</Button>
+        <Button type='submit' variant='warning' className='BotonSiguiente'>Siguiente</Button>
       </Form>
     </div>
   );

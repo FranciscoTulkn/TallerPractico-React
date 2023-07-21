@@ -3,10 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Button } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../interfaces/interfacePaso3';
 
 const Paso3 = () => {
 
+  // Constante para poder usar el navigate en las rutas
   const navigate = useNavigate();
+  // Constate para mantener los datos almancenados
+  const dispatch = useDispatch();
+  // Constante para poder manipular los datos almacenados
+  const selector = useSelector((state: RootState) => state);
 
   const validacionPaso3 = Yup.object({
     empresa: Yup.string().required('Este campo es requerido'),
@@ -17,24 +24,28 @@ const Paso3 = () => {
 
   const formik = useFormik({
     initialValues: {
-      empresa: "",
-      cargo: "",
-      fechaInicio: "",
-      fechaFin: ""
+      empresa: selector.empresa,
+      cargo: selector.cargo,
+      fechaInicio: selector.fechaInicio,
+      fechaFin: selector.fechaFin,
     },
     validationSchema: validacionPaso3,
-    onSubmit: () => { navigate('/paso4') }
+    onSubmit: (values) => { 
+      dispatch({ 
+        type: 'AgregarDatos', 
+        payload: values });
+      navigate('/paso4') }
   });
 
 
   return(
-    <div>
+    <div className='container'>
       <h2>Paso #3 - Experiencia Laboral</h2>
 {/* Inicio del formulario para diligenciar la experiencia laboral */}
-      <Form onSubmit={formik.handleSubmit}>
+      <Form onSubmit={formik.handleSubmit} className='Formulario'>
 
         {/* Campo para el nombre de la empresa */}
-        <Form.Group controlId='empresa'>
+        <Form.Group controlId='empresa' className='Inputs'>
           <Form.Label>Nombre de la empresa </Form.Label>
           <Form.Control 
             name='empresa'
@@ -45,13 +56,13 @@ const Paso3 = () => {
             placeholder='Ingrese el nombre de la empresa' 
             isInvalid={!!formik.errors.empresa && formik.touched.empresa}
           />
-          <Form.Control.Feedback type='invalid'>
+          <Form.Control.Feedback type='invalid' className='Inputs'>
             {formik.errors.empresa}
           </Form.Control.Feedback>
         </Form.Group>
 
         {/* Campo para el cargo desempañado en la empresa */}
-        <Form.Group controlId='cargo'>
+        <Form.Group controlId='cargo' className='Inputs'>
           <Form.Label>Cargo desempeñado </Form.Label>
           <Form.Control 
             name='cargo'
@@ -68,7 +79,7 @@ const Paso3 = () => {
         </Form.Group>
 
         {/* Campo para la fecha inicial en la empresa */}
-        <Form.Group controlId='fechaInicio'>
+        <Form.Group controlId='fechaInicio' className='Inputs'>
           <Form.Label>Fecha de inicio </Form.Label>
           <Form.Control 
             name='fechaInicio'
@@ -84,7 +95,7 @@ const Paso3 = () => {
         </Form.Group>
 
         {/* Campo para la fecha inicial en la empresa */}
-        <Form.Group controlId='fechaFin'>
+        <Form.Group controlId='fechaFin' className='Inputs'>
           <Form.Label>Fecha final </Form.Label>
           <Form.Control 
             name='fechaFin'
@@ -100,8 +111,8 @@ const Paso3 = () => {
         </Form.Group>
 
       {/* Botón para enviar al suiguiente paso del registro */}
-      <Button type='submit' variant='dark'>Atras</Button>
-      <Button type='submit' variant='warning'>Siguiente</Button>
+      <Button variant='dark' onClick={() => navigate('/paso2')} className='BotonSiguiente'>Atras</Button>
+      <Button type='submit' variant='warning' className='BotonSiguiente'>Siguiente</Button>
         </Form>
     </div>
   )
